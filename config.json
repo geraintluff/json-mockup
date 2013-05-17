@@ -1,0 +1,106 @@
+{
+	"matches": [
+		{
+			"where": {
+				"path": "/intro/",
+				"query": {
+					"test-query": "test"
+				}
+			},
+			"data": {
+				"text": "This page is pretending to be some query results"
+			}
+		},
+		{
+			"where": {
+				"method": "GET",
+				"path": "/intro/"
+			},
+			"data": [
+				{
+					"text": "View the config to see how this works",
+					"link": "?_json_demo=view"
+				},
+				{
+					"text": "Query strings can be filtered using \"query\"",
+					"link": "?test-query=test"
+				},
+				{
+					"text": "Interactive behaviour can be faked using \"state\"",
+					"link": "demo-state"
+				},
+				{
+					"text": "Extra HTTP headers can be added using the \"headers\" property in the config.\n\nFor example, on this page the \"Link\" header has been used to add a new link on the root of this document"
+				}
+			],
+			"schema": "schema",
+			"headers": {
+				"Link": "<#>;rel=\"inserted-link\""
+			}
+		},
+		{
+			"where": {
+				"method": "GET",
+				"path": "/intro/demo-state",
+				"state": {
+					"test-var": true
+				}
+			},
+			"state": {
+				"test-var": null
+			},
+			"data": [
+				{
+					"text": "This page is only shown when \"test-var\" is set to true in the state.\n\nViewing this page resets \"test-var\" to null, so the two pages alternate every time you refresh.",
+					"link": ""
+				}
+			],
+			"schema": "schema"
+		},
+		{
+			"where": {
+				"method": "GET",
+				"path": "/intro/demo-state"
+			},
+			"state": {
+				"test-var": true
+			},
+			"data": [
+				{
+					"text": "A simple \"state\" is kept in the session.  Pages can filter on this state, or update this state, allowing the illusion of interactivity.\n\nComparison for matching is done approximately, so a null value is the same as undefined.\n\nThis page uses state to alternate its display with another version - refresh this page to see it."
+				},
+				{
+					"text": "You can view the current state by adding the query \"?_json_demo=state\" to any page.",
+					"link": "?_json_demo=state"
+				},
+				{
+					"text": "You can reset the current state by adding the query \"?_json_demo=reset\" to any page.",
+					"link": "?_json_demo=reset"
+				}
+			],
+			"schema": "schema"
+		},
+		{
+			"where": {
+				"method": "GET",
+				"path": "/intro/schema"
+			},
+			"data": {
+				"items": {"$ref": "#"},
+				"additionalProperties": {"$ref": "#"},
+				"properties": {
+					"link": {
+						"links": [
+							{
+								"title": "Link",
+								"rel": "full",
+								"href": "{+$}"
+							}
+						]
+					}
+				}
+			},
+			"schema": "http://json-schema.org/hyper-schema"
+		}
+	]
+}
